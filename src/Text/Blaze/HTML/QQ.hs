@@ -1,3 +1,4 @@
+{-# language LambdaCase #-}
 {-# language OverloadedStrings #-}
 {-# language TemplateHaskell #-}
 {-# options_ghc -Wno-unused-imports #-}
@@ -5,17 +6,32 @@ module Text.Blaze.HTML.QQ where
 
 import Data.String (IsString(..))
 
+-- blaze-markup
+import Text.Blaze.Internal (MarkupM(..), Attribute, AttributeValue, ChoiceString(..), Attributable(..), attribute, Tag(..))
+-- containers
+import qualified Data.Map as M (Map, foldrWithKey)
 -- html-conduit
 import Text.HTML.DOM (parseLT)
 import Text.XML (Document(..), Element(..), Name(..), Node(..))
 -- template-haskell
 import Language.Haskell.TH.Quote (QuasiQuoter(..))
 -- text
-import qualified Data.Text.Lazy as LT (Text)
+import qualified Data.Text as T (Text, unpack)
+import qualified Data.Text.Lazy as TL (Text)
 
+toMarkup :: Node -> MarkupM ()
+toMarkup = \case
+  NodeComment c -> Comment (Text c) ()
 
+attributes :: M.Map Name T.Text -> Attribute
+attributes = M.foldrWithKey ins mempty
+  where
+    ins n v acc = attribute (fromString attrName) (fromString nameKeyStr) (fromString $ T.unpack v) <> acc
+      where
+        attrName = T.unpack $ nameLocalName n
+        nameKeyStr = attrName <> "=\""
 
-h0 :: LT.Text
+h0 :: TL.Text
 h0 = "<div class=\"col-12 uppercase\"><div class=\"uppercase\">Col-12</div></div>"
 
 

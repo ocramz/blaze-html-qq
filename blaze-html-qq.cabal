@@ -23,6 +23,7 @@ library
                      , blaze-html
                      , blaze-markup
                      , bytestring
+                     , containers
                      , html-conduit
                      , text
                      , xml-conduit
