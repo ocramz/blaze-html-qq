@@ -11,6 +11,7 @@
 module Text.Blaze.Html.QQ.Internal (
   blaze
   -- ** Utilities
+  , parseHTML
   , drawHTML
 
   ) where
@@ -148,18 +149,6 @@ trimWhitespace :: String -> String
 trimWhitespace = f . f
   where
     f = reverse . dropWhile isSpace
-
-noNewlines :: String -> String
-noNewlines = skipChar (== '\n')
-
--- λ> skipChar (== 'o') "potato"
--- "ptat"
-skipChar :: (Char -> Bool) -> String -> String
-skipChar f = foldr ins []
-  where
-    ins c acc
-      | f c = acc
-      | otherwise = c : acc
 
 -- | build a ChoiceString
 mkCS :: String -> ChoiceString

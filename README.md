@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ocramz/blaze-html-qq/actions/workflows/ci.yml/badge.svg)](https://github.com/ocramz/blaze-html-qq/actions/workflows/ci.yml)
 
-QuasiQuoter for `blaze-html`. Parse inline HTML snippets at compile time and produce `MarkdownM` values, e.g. 
+QuasiQuoter for `blaze-html`. Parse inline HTML snippets at compile time and produce `MarkupM` values, e.g. 
 
 ```haskell
 {-# language QuasiQuotes #-}

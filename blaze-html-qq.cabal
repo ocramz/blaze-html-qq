@@ -1,7 +1,7 @@
 name:                blaze-html-qq
 version:             0.1.0.0
--- synopsis:
--- description:
+synopsis:            QuasiQuoter for blaze-html @MarkupM@ values
+description:         QuasiQuoter for blaze-html @MarkupM@ values
 homepage:            https://github.com/ocramz/blaze-html-qq
 license:             BSD3
 license-file:        LICENSE
@@ -16,7 +16,7 @@ cabal-version:       >=1.10
 tested-with:         GHC == 8.10.7
                    , GHC == 9.0.2
                    , GHC == 9.2.7
-                   , GHC == 9.4.1
+                   -- , GHC == 9.4.1
                    -- , GHC == 9.4.6
                    -- , GHC == 9.6.2
 

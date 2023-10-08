@@ -1,6 +1,11 @@
 {-# language OverloadedStrings #-}
 {-# language QuasiQuotes #-}
-module Text.Blaze.Html.QQ (blaze) where
+module Text.Blaze.Html.QQ (
+  blaze
+    -- ** Utilities
+  , parseHTML
+  , drawHTML
+  ) where
 import Text.Blaze.Html.QQ.Internal -- (blaze, documentQQ)
 
 import qualified Data.Text.Lazy as TL (Text)
