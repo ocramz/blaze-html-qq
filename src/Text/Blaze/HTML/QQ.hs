@@ -10,5 +10,12 @@ a :: TL.Text
 a = BT.renderHtml [blaze|
 <div></div>|]
 
-b = BT.renderHtml  [blaze|<div><h1 class=widget>Hello World</h1></div>|]
+b :: TL.Text
+b = BT.renderHtml [blaze|
+<div>
+  <h1 class=widget>
+  Hello World
+  </h1>
+</div>
+|]
 

@@ -4,18 +4,22 @@
 {-# language OverloadedStrings #-}
 {-# language QuasiQuotes #-}
 {-# language TemplateHaskell #-}
-
+{-# options_ghc -Wno-unused-imports #-}
 {-# options_ghc -Wno-unused-top-binds #-}
 {-# options_ghc -Wno-orphans #-}
 {-# options_ghc -Wno-missing-methods #-}
 module Text.Blaze.Html.QQ.Internal (
   blaze
+  -- ** Utilities
   , drawHTML
 
   ) where
 
 import Control.Monad (foldM)
+import Data.Char (isSpace)
 import Data.Maybe (listToMaybe)
+import Data.List (reverse, dropWhile)
+import Data.String (lines)
 
 -- blaze-html
 -- blaze-markup
@@ -41,17 +45,21 @@ import Instances.TH.Lift ()
 -- | Produces a @blaze@ 'MarkupM' term from an HTML string.
 --
 -- Compilation will fail if the HTML is malformed (e.g. tags are mismatched, or there is no single top-level tag).
+--
+-- NB it's been tested with the Text and ByteString rendering backend of @blaze@.
+-- Likely the 'String' rendering backend will not produce meaningful output because we took certain .. /shortcuts/ in
+-- the implementation.
 blaze :: QuasiQuoter
 blaze = QuasiQuoter f u u u
   where
     f str = do
       let
-        t = T.pack $ noNewlines str
+        t = T.pack $ preprocess str
       case HP.tokensToForest (HP.parseTokens t) of
         Left e -> fail $ unwords ["mismatched brackets:", show e]
         Right xl -> case listToMaybe xl of
           Just tt -> do
-            -- reportWarning $ drawTree (show <$> tt)
+            -- reportWarning $ drawTree (show <$> tt) -- DEBUG
             fromTreeQ tt
           Nothing -> fail $ unwords ["there should be exactly one top node"]
     u = error "The 'blaze' quasiquoter can only be used to produce expressions"
@@ -133,6 +141,14 @@ addAttributes x = foldr ins x
         attrName = T.unpack n
         nameKeyStr = attrName <> "=\""
 
+preprocess :: String -> String
+preprocess = mconcat . map trimWhitespace . lines
+
+trimWhitespace :: String -> String
+trimWhitespace = f . f
+  where
+    f = reverse . dropWhile isSpace
+
 noNewlines :: String -> String
 noNewlines = skipChar (== '\n')
 
@@ -158,17 +174,12 @@ mkSS s = let t = T.pack s in StaticString id (T.encodeUtf8 t) t
 
 
 
-
-
-
-
-
--- using 'html-parse' instead of conduit-xml https://hackage.haskell.org/package/html-parse-0.2.0.2
--- hp :: T.Text -> Either HP.ParseTokenForestError (Forest HP.Token)
-hp :: T.Text -> Either HP.ParseTokenForestError (Maybe (Tree HP.Token))
-hp = fmap listToMaybe . HP.tokensToForest . HP.parseTokens
-s0 :: T.Text
-s0 = "<div><h1 class=widget>Hello World</h1></div>"
+-- -- using 'html-parse' instead of conduit-xml https://hackage.haskell.org/package/html-parse-0.2.0.2
+-- -- hp :: T.Text -> Either HP.ParseTokenForestError (Forest HP.Token)
+-- hp :: T.Text -> Either HP.ParseTokenForestError (Maybe (Tree HP.Token))
+-- hp = fmap listToMaybe . HP.tokensToForest . HP.parseTokens
+-- s0 :: T.Text
+-- s0 = "<div><h1 class=widget>Hello World</h1></div>"
 
 
 
@@ -186,6 +197,7 @@ drawHTML t = case HP.tokensToForest (HP.parseTokens t) of
     Just tt -> putStrLn $ drawTree (show <$> tt)
     Nothing -> error  $ unwords ["there should be exactly one top node"]
 
+-- | Used as reference for the implementation of the QuasiQuoter
 fromTree :: Tree HP.Token -> MarkupM ()
 fromTree (Node nod nods) =
   case nod of
