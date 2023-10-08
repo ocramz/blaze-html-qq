@@ -6,8 +6,11 @@ QuasiQuoter for `blaze-html`. Parse inline HTML snippets at compile time and pro
 
 ```haskell
 {-# language QuasiQuotes #-}
-import qualified Data.Text.Lazy as TL (Text)
+-- blaze-html
 import qualified Text.Blaze.Html.Renderer.Text as BT (renderHtml)
+-- text
+import qualified Data.Text.Lazy as TL (Text)
+
 
 import Text.Blaze.HTML.QQ (blaze)
 
