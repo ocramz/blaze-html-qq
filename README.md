@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ocramz/blaze-html-qq/actions/workflows/ci.yml/badge.svg)](https://github.com/ocramz/blaze-html-qq/actions/workflows/ci.yml)
 
-QuasiQuoter for `blaze-html`. Parse inline HTML snippets at compile time and produce `MarkupM` values, e.g. 
+QuasiQuoter for [`blaze-html`](https://hackage.haskell.org/package/blaze-html). Parse inline HTML snippets at compile time and produce `MarkupM` values, e.g. 
 
 ```haskell
 {-# language QuasiQuotes #-}
@@ -28,3 +28,5 @@ test = BT.renderHtml [blaze|
 > test
 "<div><h1 class=\"widget\" style=\"potato\">Hello!</h1></div>"
 ```
+
+This can play well alongside server-side web frameworks such as [HTMX](https://htmx.org/) and [`scotty`](https://hackage.haskell.org/package/scotty).
