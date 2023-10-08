@@ -47,7 +47,7 @@ import Instances.TH.Lift ()
 -- Compilation will fail if the HTML is malformed (e.g. tags are mismatched, or there is no single top-level tag).
 --
 -- NB it's been tested with the Text and ByteString rendering backend of @blaze@.
--- Likely the 'String' rendering backend will not produce meaningful output because we took certain .. /shortcuts/ in
+-- Likely the @String@ rendering backend will not produce meaningful output because we took certain .. /shortcuts/ in
 -- the implementation.
 blaze :: QuasiQuoter
 blaze = QuasiQuoter f u u u
@@ -87,7 +87,7 @@ fromTreeQ (Node nod nods) =
           do
             mpn <- pkgName <$> [|Empty ()|] :: Q (Maybe PkgName)
             case mpn of
-              Nothing -> error "cannot find PkgName of a MarkupM value. Is blaze-markup installed?"
+              Nothing -> fail "cannot find PkgName of a MarkupM value. Is blaze-markup installed?"
               Just pn -> do
                 let
                   mkName :: String -> Name
@@ -139,7 +139,7 @@ addAttributes x = foldr ins x
     ins (HP.Attr n v) acc = AddAttribute (mkSS attrName) (mkSS nameKeyStr) (mkCS $ T.unpack v) acc
       where
         attrName = T.unpack n
-        nameKeyStr = attrName <> "=\""
+        nameKeyStr = " " <> attrName <> "=\""
 
 preprocess :: String -> String
 preprocess = mconcat . map trimWhitespace . lines
