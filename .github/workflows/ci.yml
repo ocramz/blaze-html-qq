@@ -23,7 +23,7 @@ jobs:
         run: |
           wget https://github.com/Kleidukos/get-tested/releases/download/v0.1.5.0/get-tested-0.1.5.0-linux-amd64 -O get-tested
           chmod +x get-tested
-          ./get-tested --ubuntu --macos $PROJECT_NAME.cabal >> $GITHUB_OUTPUT
+          ./get-tested --ubuntu $PROJECT_NAME.cabal >> $GITHUB_OUTPUT
   tests:
     name: ${{ matrix.ghc }} on ${{ matrix.os }}
     needs: generate-matrix
@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up Haskell
         id: setup-haskell
-        uses: haskell/actions/setup@v2
+        uses: haskell-actions/setup
         with:
           ghc-version: ${{ matrix.ghc }}
           cabal-version: 'latest'
