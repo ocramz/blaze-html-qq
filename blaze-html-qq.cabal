@@ -5,10 +5,10 @@ version:             0.1.0.0
 homepage:            https://github.com/ocramz/blaze-html-qq
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2023 Author name here
-category:            Acme
+author:              Marco Zocca
+maintainer:          ocramz
+copyright:           2023 Marco Zocca
+category:            Text
 build-type:          Simple
 extra-source-files:  README.md
                      CHANGELOG.md
@@ -24,14 +24,10 @@ library
                      , blaze-html
                      , blaze-markup
                      , bytestring
-                     , conduit
                      , containers
-                     , html-conduit
                      , html-parse >= 0.2
                      , text
                      , th-lift-instances
-                     , xml-conduit
-                     , xml-types >= 0.3
                      , template-haskell
   ghc-options:         -Wall
 
