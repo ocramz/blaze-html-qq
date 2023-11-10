@@ -12,7 +12,7 @@ import qualified Text.Blaze.Html.Renderer.Text as BT (renderHtml)
 import qualified Data.Text.Lazy as TL (Text)
 
 
-import Text.Blaze.HTML.QQ (blaze)
+import Text.Blaze.Html.QQ (blaze)
 
 test :: TL.Text
 test = BT.renderHtml [blaze|
